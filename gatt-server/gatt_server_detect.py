@@ -5,7 +5,8 @@ import dbus.mainloop.glib
 import dbus.service
 import array
 import functools
-import detect
+import time
+#import detect
 
 try:
   from gi.repository import GObject
@@ -39,6 +40,22 @@ import jetson.inference
 import jetson.utils
 import sys
 
+# Temporarily global 
+ids = []
+num_ids = 0
+
+# Returns a list of the ClassIDs of the identified objects (0 - 90)
+def detected_ids(detections):
+	for i in range(len(detections)):
+		ids.append(detections[i].ClassID)
+	num_ids = len(detections)
+
+# Gets current list of ClassIDs of identified objects(0 - 90)
+def get_ids():
+	return ids
+
+def reset_ids():
+	del ids[:]
 
 
 class Application(dbus.service.Object):
@@ -65,6 +82,9 @@ class Application(dbus.service.Object):
 
     def add_service(self, service):
         self.services.append(service)
+    
+    def get_service(self):
+	return self.services[0]
 
     @dbus.service.method(DBUS_OM_IFACE, out_signature='a{oa{sa{sv}}}')
     def GetManagedObjects(self):
@@ -304,7 +324,7 @@ class HeartRateMeasurementChrc(Characteristic):
                 self.HR_MSRMT_UUID,
                 ['notify'],
                 service)
-        self.notifying = False
+        self.notifying = True # usually false
         self.hr_ee_count = 0 # energy expended
 
     # Changing heart rate measurement value
@@ -329,11 +349,13 @@ class HeartRateMeasurementChrc(Characteristic):
         self.hr_ee_count += 1
 
 	"""
+      
+        if len(returnList) != 0:
+		# 0 should be an index that is iterated through over time 
+		print('Updating value: ' + repr(returnList[0])) 
 
-        print('Updating value: ' + repr(value)) # prints the object
-
-        # Changes heart rate measurement value  
-        self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
+		 # Changes heart rate measurement value  
+		self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': returnList[0] }, [])
 
         return self.notifying # true or false value
 
@@ -345,8 +367,10 @@ class HeartRateMeasurementChrc(Characteristic):
         if not self.notifying:
             return
 	
+	self.hr_msrmt_cb()
         # Waits 1000 milliseconds before updating the value again 
-        GObject.timeout_add(1000, self.hr_msrmt_cb)
+        #GObject.timeout_add(2, self.hr_msrmt_cb())
+
 
     # Sets notify to true and starts the periodic updating of the heart rate measurement
     def StartNotify(self):
@@ -761,7 +785,7 @@ def register_app_error_cb(mainloop, error):
     mainloop.quit()
 
 
-def gatt_server_main(mainloop, bus, adapter_name):
+def gatt_server_detect_main(mainloop, bus, adapter_name):
 	adapter = adapters.find_adapter(bus, GATT_MANAGER_IFACE, adapter_name)
 	
 	if not adapter:
@@ -779,7 +803,6 @@ def gatt_server_main(mainloop, bus, adapter_name):
                                     reply_handler=register_app_cb,
                                     error_handler=functools.partial(register_app_error_cb, mainloop))
 
-
 	#this is the neural net
 	#0.5 baseline
 	net = jetson.inference.detectNet("ssd-inception-v2", threshold=0.5)#threshold influences number of objects detected
@@ -792,24 +815,9 @@ def gatt_server_main(mainloop, bus, adapter_name):
 	# Open display to show results  
 	display = jetson.utils.videoOutput("display://0")
 
-	# Returns a list of the ClassIDs of the identified objects (0 - 90)
-	def detected_ids(detections):
-		ids = []
-		for i in range(len(detections)):
-			ids.append(detections[i].ClassID)
-		return ids
-		
-	ids = []
-
-	results = []
-
-	def get_ids():
-		return ids
-
 	# Returns true if display window is still open
 	while display.IsStreaming():
-		ids = []
-		results = []
+		reset_ids()
 		
 		#return img - blocks until next frame is available
 		#converts raw format of the camera to floating point RGBA on the GPU
@@ -818,7 +826,10 @@ def gatt_server_main(mainloop, bus, adapter_name):
 		#detectNet object to identify objects
 		detections = net.Detect(img)
 		
-		ids = detected_ids(detections)
+		detected_ids(detections)
+
+		# Gets HeartRateMeasurementChrc and calls the update function on it
+		app.get_service().get_characteristics()[0]._update_hr_msrmt_simulation()
 
 		#render overlayed img to the OpenGL window
 		display.Render(img)

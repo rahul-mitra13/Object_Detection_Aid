@@ -3,9 +3,7 @@ import dbus
 import dbus.exceptions
 import dbus.mainloop.glib
 import dbus.service
-
 import array
-
 import functools
 
 try:
@@ -302,6 +300,10 @@ class HeartRateMeasurementChrc(Characteristic):
     # Changing heart rate measurement value
     def hr_msrmt_cb(self):
         value = []
+	returnList = detect.get_ids()
+	print("Detected objects: ", returnList)
+
+	"""
         value.append(dbus.Byte(0x06))
 	
         # Changing heart rate measurement to be sent via Bluetooth
@@ -316,6 +318,7 @@ class HeartRateMeasurementChrc(Characteristic):
                 min(0xffff, self.service.energy_expended + 1)
         self.hr_ee_count += 1
 
+	"""
 
         print('Updating value: ' + repr(value)) # prints the object
 
@@ -332,7 +335,7 @@ class HeartRateMeasurementChrc(Characteristic):
         if not self.notifying:
             return
 	
-        # Waits 1000 seconds before updating the value again 
+        # Waits 1000 milliseconds before updating the value again 
         GObject.timeout_add(1000, self.hr_msrmt_cb)
 
     # Sets notify to true and starts the periodic updating of the heart rate measurement
@@ -419,7 +422,7 @@ class HeartRateMeasurementChrc(Characteristic):
         if not self.notifying:
             return
 	
-        # Waits 1000 seconds before updating the value again 
+        # Waits 1000 milliseconds before updating the value again 
         GObject.timeout_add(1000, self.hr_msrmt_cb)
 
     # Sets notify to true and starts the periodic updating of the heart rate measurement
@@ -517,7 +520,7 @@ class BatteryLevelCharacteristic(Characteristic):
                 service)
         self.notifying = False
         self.battery_lvl = 100 # initial battery level 
-        GObject.timeout_add(5000, self.drain_battery) # drains the battery every 5000 seconds
+        GObject.timeout_add(5000, self.drain_battery) # drains the battery every 5000 milliseconds
 
     # Changes the battery level if notify is set to true
     def notify_battery_level(self):
