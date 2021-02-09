@@ -6,7 +6,6 @@ import dbus.service
 import array
 import functools
 import time
-#import detect
 
 try:
   from gi.repository import GObject
@@ -306,10 +305,10 @@ class HeartRateService(Service):
         Service.__init__(self, bus, index, self.HR_UUID, True)
         self.add_characteristic(HeartRateMeasurementChrc(bus, 0, self))
 	self.energy_expended = 0
-"""
+	"""
         self.add_characteristic(BodySensorLocationChrc(bus, 1, self))
         self.add_characteristic(HeartRateControlPointChrc(bus, 2, self))
-"""
+	"""
     
 
 
@@ -324,21 +323,26 @@ class HeartRateMeasurementChrc(Characteristic):
                 self.HR_MSRMT_UUID,
                 ['notify'],
                 service)
-        self.notifying = True # usually false
+        self.notifying = False # usually false
         self.hr_ee_count = 0 # energy expended
 
     # Changing heart rate measurement value
     def hr_msrmt_cb(self):
         value = []
-	returnList = get_ids()
-	print("Detected objects: ", returnList)
+	#returnList = get_ids()
+	#print("Detected objects: ", returnList)
 
-	"""
+	
         value.append(dbus.Byte(0x06))
+
+	print("got here")
 	
         # Changing heart rate measurement to be sent via Bluetooth
-        value.append(dbus.Byte(randint(90, 130)))
+        #value.append(dbus.Byte(5))
+	
+	print("added to dbus")
 
+	"""
         if self.hr_ee_count % 10 == 0:
             value[0] = dbus.Byte(value[0] | 0x08)
             value.append(dbus.Byte(self.service.energy_expended & 0xff))
@@ -349,15 +353,30 @@ class HeartRateMeasurementChrc(Characteristic):
         self.hr_ee_count += 1
 
 	"""
-      
+      	
+	"""
         if len(returnList) != 0:
 		# 0 should be an index that is iterated through over time 
 		print('Updating value: ' + repr(returnList[0])) 
 
 		 # Changes heart rate measurement value  
 		self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': returnList[0] }, [])
-
+	else:
+		print("print")
+		self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': 5 }, [])
+		
+	
         return self.notifying # true or false value
+	
+	"""
+	
+	print('Updating value: ' + repr(value))
+
+        self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
+
+	print("changed self")
+
+        return self.notifying
 
 
     # Updates the characteristic's heart rate measurement value if notify is set to true
@@ -365,12 +384,12 @@ class HeartRateMeasurementChrc(Characteristic):
         print('Update HR Measurement Simulation')
 
         if not self.notifying:
+	    print("not notifying")
             return
 	
-	self.hr_msrmt_cb()
         # Waits 1000 milliseconds before updating the value again 
-        #GObject.timeout_add(2, self.hr_msrmt_cb())
-
+        GObject.timeout_add(1000, self.hr_msrmt_cb)
+	
 
     # Sets notify to true and starts the periodic updating of the heart rate measurement
     def StartNotify(self):
@@ -803,6 +822,7 @@ def gatt_server_detect_main(mainloop, bus, adapter_name):
                                     reply_handler=register_app_cb,
                                     error_handler=functools.partial(register_app_error_cb, mainloop))
 
+	"""
 	#this is the neural net
 	#0.5 baseline
 	net = jetson.inference.detectNet("ssd-inception-v2", threshold=0.5)#threshold influences number of objects detected
@@ -836,4 +856,5 @@ def gatt_server_detect_main(mainloop, bus, adapter_name):
 		
 		#update title of window to reflect current performance - uses internal profiling mechanism
 		display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
+	"""
 
