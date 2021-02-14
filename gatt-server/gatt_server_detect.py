@@ -328,19 +328,25 @@ class HeartRateMeasurementChrc(Characteristic):
 
     # Changing heart rate measurement value
     def hr_msrmt_cb(self):
+	print("In hr_msrmt_cb()")
         value = []
-	#returnList = get_ids()
-	#print("Detected objects: ", returnList)
+	detections = get_ids()
+	print("Detected objects: ", detections)
+
+
+	if len(detections) != 0:
+		for obj in range(0, len(detections)):
+        		value.append(dbus.Byte(detections[obj]))
+			self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
+			del value[:]
+	else:
+		value.append(dbus.Byte(95))
+		self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
 
 	
-        value.append(dbus.Byte(0x06))
-
-	print("got here")
+        	# Changing heart rate measurement to be sent via Bluetooth
+        	#value.append(dbus.Byte(5))
 	
-        # Changing heart rate measurement to be sent via Bluetooth
-        #value.append(dbus.Byte(5))
-	
-	print("added to dbus")
 
 	"""
         if self.hr_ee_count % 10 == 0:
@@ -370,44 +376,89 @@ class HeartRateMeasurementChrc(Characteristic):
 	
 	"""
 	
-	print('Updating value: ' + repr(value))
+	#print('Updating value: ' + repr(value))
 
-        self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
 
-	print("changed self")
 
-        return self.notifying
+        #return self.notifying
 
 
     # Updates the characteristic's heart rate measurement value if notify is set to true
     def _update_hr_msrmt_simulation(self):
-        print('Update HR Measurement Simulation')
+        print("In _update_hr_msrmt_simulation()")
 
         if not self.notifying:
-	    print("not notifying")
-            return
+	    #print("not notifying")
+            return False
+	else:
+	    return True
 	
         # Waits 1000 milliseconds before updating the value again 
-        GObject.timeout_add(1000, self.hr_msrmt_cb)
+        #GObject.timeout_add(1000, self.hr_msrmt_cb)
 	
 
     # Sets notify to true and starts the periodic updating of the heart rate measurement
     def StartNotify(self):
+	print("In StartNotify()")
         if self.notifying:
             print('Already notifying, nothing to do')
             return
 
         self.notifying = True
-        self._update_hr_msrmt_simulation()
+        self.StartObjectDetection()
 
     # Sets notify to false so that the periodic updating of the heart rate measurement stops
     def StopNotify(self):
+	print("In StopNotify()")
         if not self.notifying:
             print('Not notifying, nothing to do')
             return
 
         self.notifying = False
         self._update_hr_msrmt_simulation()
+
+
+    def StartObjectDetection(self):
+	print("In StartObjectDetection()")
+	#this is the neural net
+	#0.5 baseline
+	net = jetson.inference.detectNet("ssd-inception-v2", threshold=0.5)#threshold influences number of objects detected
+
+	#this is the camera object
+	#parameters - width, height, device file
+	#a good resolution might be 1280*780
+	camera = jetson.utils.videoSource("csi://0")
+
+	# Open display to show results  
+	display = jetson.utils.videoOutput("display://0")
+
+	# Returns true if display window is still open
+	while display.IsStreaming():
+		reset_ids()
+			
+		#return img - blocks until next frame is available
+		#converts raw format of the camera to floating point RGBA on the GPU
+		img = camera.Capture()
+		
+		#Resizing image
+		#imgOutput = jetson.utils.cudaAllocMapped(width=img.width*0.5, height=img.height*0.5, format=img.format)
+		#jetson.utils.cudaResize(img, imgOutput)
+			
+		#detectNet object to identify objects
+		detections = net.Detect(img)
+			
+		detected_ids(detections)
+
+		# Gets HeartRateMeasurementChrc and calls the update function on it
+		#app.get_service().get_characteristics()[0]._update_hr_msrmt_simulation()
+		self.hr_msrmt_cb()
+
+		#render overlayed img to the OpenGL window
+		display.Render(img)
+			
+		#update title of window to reflect current performance - uses internal profiling mechanism
+		#display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
+	
 
 
 """
@@ -823,38 +874,45 @@ def gatt_server_detect_main(mainloop, bus, adapter_name):
                                     error_handler=functools.partial(register_app_error_cb, mainloop))
 
 	"""
-	#this is the neural net
-	#0.5 baseline
-	net = jetson.inference.detectNet("ssd-inception-v2", threshold=0.5)#threshold influences number of objects detected
+	# Checks if notify is true. If so, begins the object detection script
+	print("We're above the if")
+	if app.get_service().get_characteristics()[0]._update_hr_msrmt_simulation():
+		print("In here")
 
-	#this is the camera object
-	#parameters - width, height, device file
-	#a good resolution might be 1280*780
-	camera = jetson.utils.videoSource("csi://0")
+		#this is the neural net
+		#0.5 baseline
+		net = jetson.inference.detectNet("ssd-inception-v2", threshold=0.5)#threshold influences number of objects detected
 
-	# Open display to show results  
-	display = jetson.utils.videoOutput("display://0")
+		#this is the camera object
+		#parameters - width, height, device file
+		#a good resolution might be 1280*780
+		camera = jetson.utils.videoSource("csi://0")
 
-	# Returns true if display window is still open
-	while display.IsStreaming():
-		reset_ids()
-		
-		#return img - blocks until next frame is available
-		#converts raw format of the camera to floating point RGBA on the GPU
-		img = camera.Capture()
-		
-		#detectNet object to identify objects
-		detections = net.Detect(img)
-		
-		detected_ids(detections)
+		# Open display to show results  
+		display = jetson.utils.videoOutput("display://0")
 
-		# Gets HeartRateMeasurementChrc and calls the update function on it
-		app.get_service().get_characteristics()[0]._update_hr_msrmt_simulation()
+		# Returns true if display window is still open
+		while display.IsStreaming():
+			reset_ids()
+			
+			#return img - blocks until next frame is available
+			#converts raw format of the camera to floating point RGBA on the GPU
+			img = camera.Capture()
+			
+			#detectNet object to identify objects
+			detections = net.Detect(img)
+			
+			detected_ids(detections)
 
-		#render overlayed img to the OpenGL window
-		display.Render(img)
-		
-		#update title of window to reflect current performance - uses internal profiling mechanism
-		display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
+			# Gets HeartRateMeasurementChrc and calls the update function on it
+			#app.get_service().get_characteristics()[0]._update_hr_msrmt_simulation()
+			app.get_service().get_characteristics()[0].hr_msrmt_cb()
+
+			#render overlayed img to the OpenGL window
+			display.Render(img)
+			
+			#update title of window to reflect current performance - uses internal profiling mechanism
+			display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
 	"""
+
 
