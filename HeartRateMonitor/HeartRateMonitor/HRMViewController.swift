@@ -31,9 +31,9 @@
 import UIKit
 import CoreBluetooth
 
-let heartRateServiceCBUUID = CBUUID(string: "0xffff")
-let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "0xbbbb")
-//let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A38")
+let heartRateServiceCBUUID = CBUUID(string: "0xffff") //"180D"
+let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "0xbbbb") //2A37
+ // let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A38") //don't need this
 
 class HRMViewController: UIViewController {
 
@@ -54,7 +54,7 @@ class HRMViewController: UIViewController {
 
   func onHeartRateReceived(_ heartRate: Int) {
     heartRateLabel.text = String(heartRate)
-    print("BPM: \(heartRate)")
+    print("Object ID: \(heartRate)")
   }
 }
 
@@ -91,6 +91,13 @@ extension HRMViewController: CBCentralManagerDelegate {
     heartRatePeripheral.discoverServices([heartRateServiceCBUUID])
   }
 }
+
+//func disconnectFromDevice () {
+//  if heartRatePeripheral != nil {
+//  centralManager?.cancelPeripheralConnection(heartRatePeripheral!)
+//    }
+// }
+
 
 extension HRMViewController: CBPeripheralDelegate {
   func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -151,17 +158,19 @@ extension HRMViewController: CBPeripheralDelegate {
   private func heartRate(from characteristic: CBCharacteristic) -> Int {
     guard let characteristicData = characteristic.value else { return -1 }
     let byteArray = [UInt8](characteristicData)
+    
+    return Int(byteArray[0])
 
-    // See: https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.heart_rate_measurement.xml
+    // See:
     // The heart rate mesurement is in the 2nd, or in the 2nd and 3rd bytes, i.e. one one or in two bytes
     // The first byte of the first bit specifies the length of the heart rate data, 0 == 1 byte, 1 == 2 bytes
-    let firstBitValue = byteArray[0] & 0x01
-    if firstBitValue == 0 {
-      // Heart Rate Value Format is in the 2nd byte
-      return Int(byteArray[1])
-    } else {
-      // Heart Rate Value Format is in the 2nd and 3rd bytes
-      return (Int(byteArray[1]) << 8) + Int(byteArray[2])
-    }
+//    let firstBitValue = byteArray[0] & 0x01
+//    if firstBitValue == 0 {
+//      // Heart Rate Value Format is in the 2nd byte
+//      return Int(byteArray[1])
+//    } else {
+//      // Heart Rate Value Format is in the 2nd and 3rd bytes
+//      return (Int(byteArray[1]) << 8) + Int(byteArray[2])
+//    }
   }
 }
