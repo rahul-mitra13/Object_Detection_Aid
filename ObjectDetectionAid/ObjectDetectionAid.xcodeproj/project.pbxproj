@@ -8,20 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		5C03606F1FB90013007BC593 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C03606E1FB90013007BC593 /* AppDelegate.swift */; };
-		5C0360711FB90013007BC593 /* HRMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0360701FB90013007BC593 /* HRMViewController.swift */; };
+		5C0360711FB90013007BC593 /* ODAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0360701FB90013007BC593 /* ODAViewController.swift */; };
 		5C0360741FB90013007BC593 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C0360721FB90013007BC593 /* Main.storyboard */; };
 		5C0360761FB90013007BC593 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C0360751FB90013007BC593 /* Assets.xcassets */; };
 		5C0360791FB90013007BC593 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C0360771FB90013007BC593 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5C03606B1FB90013007BC593 /* HeartRateMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartRateMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C03606B1FB90013007BC593 /* ObjectDetectionAid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionAid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C03606E1FB90013007BC593 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5C0360701FB90013007BC593 /* HRMViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HRMViewController.swift; sourceTree = "<group>"; };
+		5C0360701FB90013007BC593 /* ODAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ODAViewController.swift; sourceTree = "<group>"; };
 		5C0360731FB90013007BC593 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5C0360751FB90013007BC593 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C0360781FB90013007BC593 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5C03607A1FB90013007BC593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C03607A1FB90013007BC593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = /Users/Alisa/Desktop/Senior_Project/ObjectDetectionAid/ObjectDetectionAid/Info.plist; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +38,7 @@
 		5C0360621FB90013007BC593 = {
 			isa = PBXGroup;
 			children = (
-				5C03606D1FB90013007BC593 /* HeartRateMonitor */,
+				5C03606D1FB90013007BC593 /* ObjectDetectionAid */,
 				5C03606C1FB90013007BC593 /* Products */,
 			);
 			indentWidth = 2;
@@ -48,30 +48,30 @@
 		5C03606C1FB90013007BC593 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5C03606B1FB90013007BC593 /* HeartRateMonitor.app */,
+				5C03606B1FB90013007BC593 /* ObjectDetectionAid.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5C03606D1FB90013007BC593 /* HeartRateMonitor */ = {
+		5C03606D1FB90013007BC593 /* ObjectDetectionAid */ = {
 			isa = PBXGroup;
 			children = (
 				5C03606E1FB90013007BC593 /* AppDelegate.swift */,
-				5C0360701FB90013007BC593 /* HRMViewController.swift */,
+				5C0360701FB90013007BC593 /* ODAViewController.swift */,
 				5C0360721FB90013007BC593 /* Main.storyboard */,
 				5C0360751FB90013007BC593 /* Assets.xcassets */,
 				5C0360771FB90013007BC593 /* LaunchScreen.storyboard */,
 				5C03607A1FB90013007BC593 /* Info.plist */,
 			);
-			path = HeartRateMonitor;
+			path = ObjectDetectionAid;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5C03606A1FB90013007BC593 /* HeartRateMonitor */ = {
+		5C03606A1FB90013007BC593 /* ObjectDetectionAid */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C03607D1FB90013007BC593 /* Build configuration list for PBXNativeTarget "HeartRateMonitor" */;
+			buildConfigurationList = 5C03607D1FB90013007BC593 /* Build configuration list for PBXNativeTarget "ObjectDetectionAid" */;
 			buildPhases = (
 				5C0360671FB90013007BC593 /* Sources */,
 				5C0360681FB90013007BC593 /* Frameworks */,
@@ -81,9 +81,9 @@
 			);
 			dependencies = (
 			);
-			name = HeartRateMonitor;
+			name = ObjectDetectionAid;
 			productName = HeartRateMonitor;
-			productReference = 5C03606B1FB90013007BC593 /* HeartRateMonitor.app */;
+			productReference = 5C03606B1FB90013007BC593 /* ObjectDetectionAid.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -93,7 +93,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Ray Wenderlich";
 				TargetAttributes = {
 					5C03606A1FB90013007BC593 = {
@@ -102,7 +102,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5C0360661FB90013007BC593 /* Build configuration list for PBXProject "HeartRateMonitor" */;
+			buildConfigurationList = 5C0360661FB90013007BC593 /* Build configuration list for PBXProject "ObjectDetectionAid" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -115,7 +115,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5C03606A1FB90013007BC593 /* HeartRateMonitor */,
+				5C03606A1FB90013007BC593 /* ObjectDetectionAid */,
 			);
 		};
 /* End PBXProject section */
@@ -138,7 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C0360711FB90013007BC593 /* HRMViewController.swift in Sources */,
+				5C0360711FB90013007BC593 /* ODAViewController.swift in Sources */,
 				5C03606F1FB90013007BC593 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,6 +179,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -186,8 +187,10 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -213,7 +216,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -236,6 +239,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -243,8 +247,10 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -264,7 +270,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -278,9 +284,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QKH67H5R6Y;
-				INFOPLIST_FILE = HeartRateMonitor/Info.plist;
+				INFOPLIST_FILE = ObjectDetectionAid/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alisa.HeartRateMonitorFinal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alisa.ObjectDetectionAid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -293,9 +299,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QKH67H5R6Y;
-				INFOPLIST_FILE = HeartRateMonitor/Info.plist;
+				INFOPLIST_FILE = ObjectDetectionAid/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.alisa.HeartRateMonitorFinal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alisa.ObjectDetectionAid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -305,7 +311,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5C0360661FB90013007BC593 /* Build configuration list for PBXProject "HeartRateMonitor" */ = {
+		5C0360661FB90013007BC593 /* Build configuration list for PBXProject "ObjectDetectionAid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C03607B1FB90013007BC593 /* Debug */,
@@ -314,7 +320,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5C03607D1FB90013007BC593 /* Build configuration list for PBXNativeTarget "HeartRateMonitor" */ = {
+		5C03607D1FB90013007BC593 /* Build configuration list for PBXNativeTarget "ObjectDetectionAid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C03607E1FB90013007BC593 /* Debug */,

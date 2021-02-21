@@ -31,17 +31,17 @@
 import UIKit
 import CoreBluetooth
 
-let heartRateServiceCBUUID = CBUUID(string: "0xffff") //"180D"
-let heartRateMeasurementCharacteristicCBUUID = CBUUID(string: "0xbbbb") //2A37
+let nanoServiceCBUUID = CBUUID(string: "0xffff") //"180D"
+let objectDetectionCharacteristicCBUUID = CBUUID(string: "0xbbbb") //2A37
  // let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A38") //don't need this
 
 class HRMViewController: UIViewController {
 
-  @IBOutlet weak var heartRateLabel: UILabel!
+  @IBOutlet weak var detectedObjectLabel: UILabel!
   @IBOutlet weak var bodySensorLocationLabel: UILabel!
 
   var centralManager: CBCentralManager!
-  var heartRatePeripheral: CBPeripheral!
+  var nanoPeripheral: CBPeripheral!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -49,14 +49,19 @@ class HRMViewController: UIViewController {
     centralManager = CBCentralManager(delegate: self, queue: nil)
 
     // Make the digits monospaces to avoid shifting when the numbers change
-    heartRateLabel.font = UIFont.monospacedDigitSystemFont(ofSize: heartRateLabel.font!.pointSize, weight: .regular)
+    detectedObjectLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 28, weight: .regular)
+    
+    //detectedObjectLabel.font!.pointSize, weight: .regular
   }
 
-  func onHeartRateReceived(_ heartRate: Int) {
+  func onDetectionReceived(_ detectedObject: Int) {
     let dict = [0 : "Unlabeled", 1 : "Person", 2 : "Bicycle", 3 : "Car", 4 : "Motorcycle", 5 : "Airplane", 6 : "Bus", 7 : "Train", 8 : "Truck", 9 : "Boat", 10 : "Traffic Light", 11 : "Fire Hydrant", 12 : "Street Sign", 13 : "Stop Sign", 14 : "Parking Meter", 15 : "Bench", 16 : "Bird", 17 : "Cat", 18 : "Dog", 19 : "Horse", 20 : "Sheep", 21 : "Cow", 22 : "Elephant", 23 : "Bear", 24 : "Zebra", 25 : "Giraffe", 26 : "Hat", 27 : "Backpack", 28 : "Umbrella", 29 : "Shoe", 30 : "Eye Glasses", 31 : "Handbag", 32 : "Tie", 33 : "Suitcase", 34 : "Frisbee", 35 : "Skis", 36 : "Snowboard", 37 : "Sports Ball", 38 : "Kite", 39 : "Baseball Bat", 40 : "Baseball Glove", 41 : "Skateboard", 42 : "Surfboard", 43 : "Tennis Racket", 44 : "Bottle", 45 : "Plate", 46 : "Wine Glass", 47 : "Cup", 48 : "Fork", 49 : "Knife", 50 : "Spoon", 51 : "Bowl", 52 : "Banana", 53 : "Apple", 54 : "Sandwich", 55 : "Orange", 56 : "Broccoli", 57 : "Carrot", 58 : "Hot dog", 59 : "Pizza", 60 : "Donut", 61 : "Cake", 62 : "Chair", 63 : "Couch", 64 : "Potted Plant", 65 : "Bed", 66 : "Mirror", 67 : "Dining Table", 68 : "Window", 69 : "Desk", 70 : "Toilet", 71 : "Door", 72 : "TV", 73 : "Laptop", 74 : "Mouse", 75 : "Remote", 76 : "Keyboard", 77 : "Cell Phone", 78 : "Microwave", 79 : "Oven", 80 : "Toaster", 81 : "Sink", 82 : "Refrigerator", 83 : "Blender", 84 : "Book", 85 : "Clock", 86 : "Vase", 87 : "Scissors", 88 : "Teddy Bear", 89 : "Hair Driery", 90 : "Toothbrush"]
-    //heartRateLabel.text = String(heartRate)
-    heartRateLabel.text = dict[heartRate]
-    print("Object ID: \(heartRate)")
+    //detectedObjectLabel.text = String(detectedObject)
+    do {
+        sleep(1)
+    }
+    detectedObjectLabel.text = dict[detectedObject]
+    print("Object ID: \(String(describing: dict[detectedObject]))")
   }
 }
 
@@ -75,28 +80,28 @@ extension HRMViewController: CBCentralManagerDelegate {
       print("central.state is .poweredOff")
     case .poweredOn:
       print("central.state is .poweredOn")
-      centralManager.scanForPeripherals(withServices: [heartRateServiceCBUUID])
+      centralManager.scanForPeripherals(withServices: [nanoServiceCBUUID])
     }
   }
 
   func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
                       advertisementData: [String : Any], rssi RSSI: NSNumber) {
     print(peripheral)
-    heartRatePeripheral = peripheral
-    heartRatePeripheral.delegate = self
+    nanoPeripheral = peripheral
+    nanoPeripheral.delegate = self
     centralManager.stopScan()
-    centralManager.connect(heartRatePeripheral)
+    centralManager.connect(nanoPeripheral)
   }
 
   func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
     print("Connected!")
-    heartRatePeripheral.discoverServices([heartRateServiceCBUUID])
+    nanoPeripheral.discoverServices([nanoServiceCBUUID])
   }
 }
 
 //func disconnectFromDevice () {
-//  if heartRatePeripheral != nil {
-//  centralManager?.cancelPeripheralConnection(heartRatePeripheral!)
+//  if nanoPeripheral != nil {
+//  centralManager?.cancelPeripheralConnection(nanoPeripheral!)
 //    }
 // }
 
@@ -132,9 +137,9 @@ extension HRMViewController: CBPeripheralDelegate {
 //    case bodySensorLocationCharacteristicCBUUID:
 //      let bodySensorLocation = bodyLocation(from: characteristic)
 //      bodySensorLocationLabel.text = bodySensorLocation
-    case heartRateMeasurementCharacteristicCBUUID:
-      let bpm = heartRate(from: characteristic)
-      onHeartRateReceived(bpm)
+    case objectDetectionCharacteristicCBUUID:
+      let object = detectedObject(from: characteristic)
+      onDetectionReceived(object)
     default:
       print("Unhandled Characteristic UUID: \(characteristic.uuid)")
     }
@@ -157,22 +162,10 @@ extension HRMViewController: CBPeripheralDelegate {
 //    }
 //  }
 
-  private func heartRate(from characteristic: CBCharacteristic) -> Int {
+  private func detectedObject(from characteristic: CBCharacteristic) -> Int {
     guard let characteristicData = characteristic.value else { return -1 }
     let byteArray = [UInt8](characteristicData)
     
     return Int(byteArray[0])
-
-    // See:
-    // The heart rate mesurement is in the 2nd, or in the 2nd and 3rd bytes, i.e. one one or in two bytes
-    // The first byte of the first bit specifies the length of the heart rate data, 0 == 1 byte, 1 == 2 bytes
-//    let firstBitValue = byteArray[0] & 0x01
-//    if firstBitValue == 0 {
-//      // Heart Rate Value Format is in the 2nd byte
-//      return Int(byteArray[1])
-//    } else {
-//      // Heart Rate Value Format is in the 2nd and 3rd bytes
-//      return (Int(byteArray[1]) << 8) + Int(byteArray[2])
-//    }
   }
 }
