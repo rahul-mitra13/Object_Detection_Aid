@@ -53,7 +53,9 @@ class HRMViewController: UIViewController {
   }
 
   func onHeartRateReceived(_ heartRate: Int) {
-    heartRateLabel.text = String(heartRate)
+    let dict = [1 : "Person"]
+    //heartRateLabel.text = String(heartRate)
+    heartRateLabel.text = dict[heartRate]
     print("Object ID: \(heartRate)")
   }
 }
