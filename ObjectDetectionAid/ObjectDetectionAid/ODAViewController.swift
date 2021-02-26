@@ -30,18 +30,24 @@
 
 import UIKit
 import CoreBluetooth
+import AVFoundation
+
 
 let nanoServiceCBUUID = CBUUID(string: "0xffff") //"180D"
 let objectDetectionCharacteristicCBUUID = CBUUID(string: "0xbbbb") //2A37
  // let bodySensorLocationCharacteristicCBUUID = CBUUID(string: "2A38") //don't need this
 
-class HRMViewController: UIViewController {
+
+class ODAViewController: UIViewController {
+  
 
   @IBOutlet weak var detectedObjectLabel: UILabel!
   @IBOutlet weak var bodySensorLocationLabel: UILabel!
 
   var centralManager: CBCentralManager!
   var nanoPeripheral: CBPeripheral!
+  var count = 0
+  
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -52,17 +58,22 @@ class HRMViewController: UIViewController {
     detectedObjectLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 30, weight: .regular)
     
     //detectedObjectLabel.font!.pointSize, weight: .regular
+    
   }
 
-  func onDetectionReceived(_ detectedObject: Int) {
-    let dict = [0 : "Unlabeled", 1 : "Person", 2 : "Bicycle", 3 : "Car", 4 : "Motorcycle", 5 : "Airplane", 6 : "Bus", 7 : "Train", 8 : "Truck", 9 : "Boat", 10 : "Traffic Light", 11 : "Fire Hydrant", 12 : "Street Sign", 13 : "Stop Sign", 14 : "Parking Meter", 15 : "Bench", 16 : "Bird", 17 : "Cat", 18 : "Dog", 19 : "Horse", 20 : "Sheep", 21 : "Cow", 22 : "Elephant", 23 : "Bear", 24 : "Zebra", 25 : "Giraffe", 26 : "Hat", 27 : "Backpack", 28 : "Umbrella", 29 : "Shoe", 30 : "Eye Glasses", 31 : "Handbag", 32 : "Tie", 33 : "Suitcase", 34 : "Frisbee", 35 : "Skis", 36 : "Snowboard", 37 : "Sports Ball", 38 : "Kite", 39 : "Baseball Bat", 40 : "Baseball Glove", 41 : "Skateboard", 42 : "Surfboard", 43 : "Tennis Racket", 44 : "Bottle", 45 : "Plate", 46 : "Wine Glass", 47 : "Cup", 48 : "Fork", 49 : "Knife", 50 : "Spoon", 51 : "Bowl", 52 : "Banana", 53 : "Apple", 54 : "Sandwich", 55 : "Orange", 56 : "Broccoli", 57 : "Carrot", 58 : "Hot dog", 59 : "Pizza", 60 : "Donut", 61 : "Cake", 62 : "Chair", 63 : "Couch", 64 : "Potted Plant", 65 : "Bed", 66 : "Mirror", 67 : "Dining Table", 68 : "Window", 69 : "Desk", 70 : "Toilet", 71 : "Door", 72 : "TV", 73 : "Laptop", 74 : "Mouse", 75 : "Remote", 76 : "Keyboard", 77 : "Cell Phone", 78 : "Microwave", 79 : "Oven", 80 : "Toaster", 81 : "Sink", 82 : "Refrigerator", 83 : "Blender", 84 : "Book", 85 : "Clock", 86 : "Vase", 87 : "Scissors", 88 : "Teddy Bear", 89 : "Hair Driery", 90 : "Toothbrush", 95: " "]
+  func onDetectionReceived(_ detectedObject: Int) -> String {
+    let dict = [0 : "Unlabeled", 1 : "Person", 2 : "Bicycle", 3 : "Car", 4 : "Motorcycle", 5 : "Airplane", 6 : "Bus", 7 : "Train", 8 : "Truck", 9 : "Boat", 10 : "Traffic Light", 11 : "Fire Hydrant", 12 : "Street Sign", 13 : "Stop Sign", 14 : "Parking Meter", 15 : "Bench", 16 : "Bird", 17 : "Cat", 18 : "Dog", 19 : "Horse", 20 : "Sheep", 21 : "Cow", 22 : "Elephant", 23 : "Bear", 24 : "Zebra", 25 : "Giraffe", 26 : "Hat", 27 : "Backpack", 28 : "Umbrella", 29 : "Shoe", 30 : "Eye Glasses", 31 : "Handbag", 32 : "Tie", 33 : "Suitcase", 34 : "Frisbee", 35 : "Skis", 36 : "Snowboard", 37 : "Sports Ball", 38 : "Kite", 39 : "Baseball Bat", 40 : "Baseball Glove", 41 : "Skateboard", 42 : "Surfboard", 43 : "Tennis Racket", 44 : "Bottle", 45 : "Plate", 46 : "Wine Glass", 47 : "Cup", 48 : "Fork", 49 : "Knife", 50 : "Spoon", 51 : "Bowl", 52 : "Banana", 53 : "Apple", 54 : "Sandwich", 55 : "Orange", 56 : "Broccoli", 57 : "Carrot", 58 : "Hot dog", 59 : "Pizza", 60 : "Donut", 61 : "Cake", 62 : "Chair", 63 : "Couch", 64 : "Potted Plant", 65 : "Bed", 66 : "Mirror", 67 : "Dining Table", 68 : "Window", 69 : "Desk", 70 : "Toilet", 71 : "Door", 72 : "TV", 73 : "Laptop", 74 : "Mouse", 75 : "Remote", 76 : "Keyboard", 77 : "Cell Phone", 78 : "Microwave", 79 : "Oven", 80 : "Toaster", 81 : "Sink", 82 : "Refrigerator", 83 : "Blender", 84 : "Book", 85 : "Clock", 86 : "Vase", 87 : "Scissors", 88 : "Teddy Bear", 89 : "Hair Driery", 90 : "Toothbrush", 95: "Clear", 96: " " ]
     //detectedObjectLabel.text = String(detectedObject)
     detectedObjectLabel.text = dict[detectedObject]
-    print("Object ID: \(String(describing: dict[detectedObject]))")
+    print("Object ID: \(String(describing: dict[detectedObject]!))")
+//    print("Object ID: \(String(describing: dict[detectedObject]))")
+    
+    return dict[detectedObject]!
+    
   }
 }
 
-extension HRMViewController: CBCentralManagerDelegate {
+extension ODAViewController: CBCentralManagerDelegate {
   func centralManagerDidUpdateState(_ central: CBCentralManager) {
     switch central.state {
     case .unknown:
@@ -94,6 +105,13 @@ extension HRMViewController: CBCentralManagerDelegate {
     print("Connected!")
     nanoPeripheral.discoverServices([nanoServiceCBUUID])
   }
+  
+  func audio(label: String) {
+    let utterance = AVSpeechUtterance(string: label)
+    let synthesizer = AVSpeechSynthesizer()
+    synthesizer.speak(utterance)
+  }
+ 
 }
 
 //func disconnectFromDevice () {
@@ -103,7 +121,7 @@ extension HRMViewController: CBCentralManagerDelegate {
 // }
 
 
-extension HRMViewController: CBPeripheralDelegate {
+extension ODAViewController: CBPeripheralDelegate {
   func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
     guard let services = peripheral.services else { return }
     for service in services {
@@ -135,34 +153,30 @@ extension HRMViewController: CBPeripheralDelegate {
 //      let bodySensorLocation = bodyLocation(from: characteristic)
 //      bodySensorLocationLabel.text = bodySensorLocation
     case objectDetectionCharacteristicCBUUID:
-      let object = detectedObject(from: characteristic)
-      onDetectionReceived(object)
+      let objectIDList = detectedObjects(from: characteristic)
+      
+      print("")
+      print("Length of byteArray = ", objectIDList.count)
+      
+      for i in objectIDList.indices {
+        let object = Int(objectIDList[i])
+        let objectLabel = onDetectionReceived(object)
+        count = count + 1
+        
+        if count % 25 == 0 { //delays audio readout
+          audio(label: objectLabel)
+        }
+        
+      }
     default:
       print("Unhandled Characteristic UUID: \(characteristic.uuid)")
     }
   }
 
-//  private func bodyLocation(from characteristic: CBCharacteristic) -> String {
-//    guard let characteristicData = characteristic.value,
-//      let byte = characteristicData.first else { return "Error" }
-//
-//    switch byte {
-//    case 0: return "Other"
-//    case 1: return "Chest"
-//    case 2: return "Wrist"
-//    case 3: return "Finger"
-//    case 4: return "Hand"
-//    case 5: return "Ear Lobe"
-//    case 6: return "Foot"
-//    default:
-//      return "Reserved for future use"
-//    }
-//  }
-
-  private func detectedObject(from characteristic: CBCharacteristic) -> Int {
-    guard let characteristicData = characteristic.value else { return -1 }
-    let byteArray = [UInt8](characteristicData)
-    
-    return Int(byteArray[0])
+  //Returns list of objects detected in a given image instance
+  private func detectedObjects(from characteristic: CBCharacteristic) -> Array<UInt8> {
+    guard let characteristicData = characteristic.value else { return [UInt8](arrayLiteral: 97) }
+    let detectedIDs = [UInt8](characteristicData)
+    return detectedIDs
   }
 }
