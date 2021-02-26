@@ -338,7 +338,6 @@ class HeartRateMeasurementChrc(Characteristic):
 		for obj in range(0, len(detections)):
         		value.append(dbus.Byte(detections[obj]))
 			self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
-			del value[:]
 	else:
 		value.append(dbus.Byte(95))
 		self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
@@ -381,7 +380,12 @@ class HeartRateMeasurementChrc(Characteristic):
 
 
         #return self.notifying
-
+    
+    #updating dummy values - trying to keep connection alive
+    def dummy_update(self):
+	value = []	
+	value.append(dbus.Byte(95))
+	self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
 
     # Updates the characteristic's heart rate measurement value if notify is set to true
     def _update_hr_msrmt_simulation(self):
@@ -434,19 +438,25 @@ class HeartRateMeasurementChrc(Characteristic):
 
 	# Returns true if display window is still open
 	while display.IsStreaming():
+
+		self.dummy_update()
+
 		reset_ids()
 			
 		#return img - blocks until next frame is available
 		#converts raw format of the camera to floating point RGBA on the GPU
 		img = camera.Capture()
 		
+		self.dummy_update()
 		#Resizing image
 		#imgOutput = jetson.utils.cudaAllocMapped(width=img.width*0.5, height=img.height*0.5, format=img.format)
 		#jetson.utils.cudaResize(img, imgOutput)
 			
 		#detectNet object to identify objects
 		detections = net.Detect(img)
-			
+
+		self.dummy_update()
+
 		detected_ids(detections)
 
 		# Gets HeartRateMeasurementChrc and calls the update function on it
@@ -455,7 +465,7 @@ class HeartRateMeasurementChrc(Characteristic):
 
 		#render overlayed img to the OpenGL window
 		display.Render(img)
-			
+	
 		#update title of window to reflect current performance - uses internal profiling mechanism
 		#display.SetStatus("Object Detection | Network {:.0f} FPS".format(net.GetNetworkFPS()))
 	
