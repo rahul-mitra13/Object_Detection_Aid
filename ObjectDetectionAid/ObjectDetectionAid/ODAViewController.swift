@@ -56,17 +56,15 @@ class ODAViewController: UIViewController {
 
     // Make the digits monospaces to avoid shifting when the numbers change
     detectedObjectLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 30, weight: .regular)
-    
-    //detectedObjectLabel.font!.pointSize, weight: .regular
+
     
   }
 
   func onDetectionReceived(_ detectedObject: Int) -> String {
-    let dict = [0 : "Unlabeled", 1 : "Person", 2 : "Bicycle", 3 : "Car", 4 : "Motorcycle", 5 : "Airplane", 6 : "Bus", 7 : "Train", 8 : "Truck", 9 : "Boat", 10 : "Traffic Light", 11 : "Fire Hydrant", 12 : "Street Sign", 13 : "Stop Sign", 14 : "Parking Meter", 15 : "Bench", 16 : "Bird", 17 : "Cat", 18 : "Dog", 19 : "Horse", 20 : "Sheep", 21 : "Cow", 22 : "Elephant", 23 : "Bear", 24 : "Zebra", 25 : "Giraffe", 26 : "Hat", 27 : "Backpack", 28 : "Umbrella", 29 : "Shoe", 30 : "Eye Glasses", 31 : "Handbag", 32 : "Tie", 33 : "Suitcase", 34 : "Frisbee", 35 : "Skis", 36 : "Snowboard", 37 : "Sports Ball", 38 : "Kite", 39 : "Baseball Bat", 40 : "Baseball Glove", 41 : "Skateboard", 42 : "Surfboard", 43 : "Tennis Racket", 44 : "Bottle", 45 : "Plate", 46 : "Wine Glass", 47 : "Cup", 48 : "Fork", 49 : "Knife", 50 : "Spoon", 51 : "Bowl", 52 : "Banana", 53 : "Apple", 54 : "Sandwich", 55 : "Orange", 56 : "Broccoli", 57 : "Carrot", 58 : "Hot dog", 59 : "Pizza", 60 : "Donut", 61 : "Cake", 62 : "Chair", 63 : "Couch", 64 : "Potted Plant", 65 : "Bed", 66 : "Mirror", 67 : "Dining Table", 68 : "Window", 69 : "Desk", 70 : "Toilet", 71 : "Door", 72 : "TV", 73 : "Laptop", 74 : "Mouse", 75 : "Remote", 76 : "Keyboard", 77 : "Cell Phone", 78 : "Microwave", 79 : "Oven", 80 : "Toaster", 81 : "Sink", 82 : "Refrigerator", 83 : "Blender", 84 : "Book", 85 : "Clock", 86 : "Vase", 87 : "Scissors", 88 : "Teddy Bear", 89 : "Hair Driery", 90 : "Toothbrush", 95: "Clear", 96: " " ]
-    //detectedObjectLabel.text = String(detectedObject)
+    let dict = [0 : "Unlabeled", 1 : "Person", 2 : "Bicycle", 3 : "Car", 4 : "Motorcycle", 5 : "Airplane", 6 : "Bus", 7 : "Train", 8 : "Truck", 9 : "Boat", 10 : "Traffic Light", 11 : "Fire Hydrant", 12 : "Street Sign", 13 : "Stop Sign", 14 : "Parking Meter", 15 : "Bench", 16 : "Bird", 17 : "Cat", 18 : "Dog", 19 : "Horse", 20 : "Sheep", 21 : "Cow", 22 : "Elephant", 23 : "Bear", 24 : "Zebra", 25 : "Giraffe", 26 : "Hat", 27 : "Backpack", 28 : "Umbrella", 29 : "Shoe", 30 : "Eye Glasses", 31 : "Handbag", 32 : "Tie", 33 : "Suitcase", 34 : "Frisbee", 35 : "Skis", 36 : "Snowboard", 37 : "Sports Ball", 38 : "Kite", 39 : "Baseball Bat", 40 : "Baseball Glove", 41 : "Skateboard", 42 : "Surfboard", 43 : "Tennis Racket", 44 : "Bottle", 45 : "Plate", 46 : "Wine Glass", 47 : "Cup", 48 : "Fork", 49 : "Knife", 50 : "Spoon", 51 : "Bowl", 52 : "Banana", 53 : "Apple", 54 : "Sandwich", 55 : "Orange", 56 : "Broccoli", 57 : "Carrot", 58 : "Hot dog", 59 : "Pizza", 60 : "Donut", 61 : "Cake", 62 : "Chair", 63 : "Couch", 64 : "Potted Plant", 65 : "Bed", 66 : "Mirror", 67 : "Dining Table", 68 : "Window", 69 : "Desk", 70 : "Toilet", 71 : "Door", 72 : "TV", 73 : "Laptop", 74 : "Mouse", 75 : "Remote", 76 : "Keyboard", 77 : "Cell Phone", 78 : "Microwave", 79 : "Oven", 80 : "Toaster", 81 : "Sink", 82 : "Refrigerator", 83 : "Blender", 84 : "Book", 85 : "Clock", 86 : "Vase", 87 : "Scissors", 88 : "Teddy Bear", 89 : "Hair Drier", 90 : "Toothbrush", 95: " ", 96: " " ]
+    
     detectedObjectLabel.text = dict[detectedObject]
     print("Object ID: \(String(describing: dict[detectedObject]!))")
-//    print("Object ID: \(String(describing: dict[detectedObject]))")
     
     return dict[detectedObject]!
     
@@ -158,19 +156,61 @@ extension ODAViewController: CBPeripheralDelegate {
       print("")
       print("Length of byteArray = ", objectIDList.count)
       
-      for i in objectIDList.indices {
-        let object = Int(objectIDList[i])
-        let objectLabel = onDetectionReceived(object)
-        count = count + 1
+//      for i in objectIDList.indices {
+//        let object = Int(objectIDList[i])
+//        let objectLabel = onDetectionReceived(object)
+//        count = count + 1
+//
+//        if count % 25 == 0 { //delays audio readout
+//          audio(label: objectLabel)
+//        }
         
-        if count % 25 == 0 { //delays audio readout
-          audio(label: objectLabel)
+      var objectLabels = [String : Int]()
+        
+        for i in objectIDList.indices {
+          let object = Int(objectIDList[i])
+          let label = onDetectionReceived(object)
+          // Adds label to hashmap with value of 1 if it doesn't exist, or increments it by 1 if it does
+          objectLabels[label] = objectLabels[label] ?? 0 + 1 //FIX THIS
+          
+          count = count + 1
+          
+        if count % 30 == 0 { //delays audio readout
+          audio(label: fixGrammar(labels: objectLabels))
         }
         
       }
     default:
       print("Unhandled Characteristic UUID: \(characteristic.uuid)")
     }
+  }
+  
+  func fixGrammar(labels: [String : Int]) -> String {
+    var conjunction = ""
+    var output = ""
+    var ctr = 0
+    for (label, number) in labels {
+      if ctr > 0 {
+        conjunction = " and "
+      }
+      if label == " " {
+        return label
+      }
+      if number == 1 {
+        output = output + " " + conjunction + String(number) + " " +  label
+      }
+      else {
+        output = output + " " + conjunction + String(number) + " " +  pluralize(word: label)
+      }
+      ctr = ctr + 1
+    }
+    return output
+  }
+  
+  func pluralize(word: String) -> String {
+    let plural = ["Unlabeled" : "Unlabeled", "Person" : "People", "Bicycle" : "Bicycles", "Car" : "Cars", "Motorcycle" : "Motorcycles", "Airplane" : "Airplanes", "Bus" : "Buses", "Train" : "Trains", "Truck" : "Trucks", "Boat" : "Boats", "Traffic Light" : "Traffic Lights", "Fire Hydrant" : "Fire Hydrants", "Street Sign" : "Street Signs", "Stop Sign" : "Stop Signs", "Parking Meter" : "Parking Meters", "Bench" : "Benches", "Bird" : "Birds", "Cat" : "Cats", "Dog" : "Dogs", "Horse" : "Horses", "Sheep" : "Sheep", "Cow" : "Cows", "Elephant" : "Elephants", "Bear" : "Bears", "Zebra" : "Zebras", "Giraffe" : "Giraffes", "Hat" : "Hats", "Backpack" : "Backpacks", "Umbrella" : "Umbrellas", "Shoe" : "Shoes", "Eye Glasses" : "Eye Glasses", "Handbag" : "Handbags", "Tie" : "Ties", "Suitcase" : "Suitcases", "Frisbee" : "Frisbees", "Skis" : "Skis", "Snowboard" : "Snowboards", "Sports Ball" : "Sports Balls", "Kite" : "Kites", "Baseball Bat" : "Baseball Bats", "Baseball Glove" : "Baseball Gloves", "Skateboard" : "Skateboards", "Surfboard" : "Surfboards", "Tennis Racket" : "Tennis Rackets", "Bottle" : "Bottles", "Plate" : "Plates", "Wine Glass" : "Wine Glasses", "Cup" : "Cups", "Fork" : "Forks", "Knife" : "Knives", "Spoon" : "Spoons", "Bowl" : "Bowls", "Banana" : "Bananas", "Apple" : "Apples", "Sandwich" : "Sandwiches", "Orange" : "Oranges", "Broccoli" : "Broccoli", "Carrot" : "Carrots", "Hot dog" : "Hot dogs", "Pizza" : "Pizzas", "Donut" : "Donuts", "Cake" : "Cakes", "Chair" : "Chairs", "Couch" : "Couches", "Potted Plant" : "Potted Plants", "Bed" : "Beds", "Mirror" : "Mirrors", "Dining Table" : "Dining Tables", "Window" : "Windows", "Desk" : "Desks", "Toilet" : "Toilets", "Door" : "Doors", "TV" : "TVs", "Laptop" : "Laptops", "Mouse" : "Mice", "Remote" : "Remotes", "Keyboard" : "Keyboards", "Cell Phone" : "Cell Phones", "Microwave" : "Microwaves", "Oven" : "Ovens", "Toaster" : "Toasters", "Sink" : "Sinks", "Refrigerator" : "Refrigerators", "Blender" : "Blenders", "Book" : "Books", "Clock" : "Clocks", "Vase" : "Vases", "Scissors" : "Scissors", "Teddy Bear" : "Teddy Bears", "Hair Drier" : "Hair Driers", "Toothbrush" : "Toothbrushes"]
+    
+    return plural[word]!
   }
 
   //Returns list of objects detected in a given image instance
