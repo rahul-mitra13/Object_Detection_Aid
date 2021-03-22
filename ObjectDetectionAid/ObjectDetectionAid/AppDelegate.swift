@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   // Makes sure that audio does not stop in the background
   func applicationDidEnterBackground(_ application: UIApplication) {
     
-    let utterance = AVSpeechUtterance(string: "    Test")
+    let utterance = AVSpeechUtterance(string: "  ")
     let synthesizer = AVSpeechSynthesizer()
     synthesizer.speak(utterance)
     

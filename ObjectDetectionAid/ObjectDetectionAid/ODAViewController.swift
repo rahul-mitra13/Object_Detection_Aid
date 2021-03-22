@@ -109,24 +109,11 @@ extension ODAViewController: CBCentralManagerDelegate {
   }
   
   func audio(label: String) {
-    
-    
-    //Added this chunk. Fix this
-//    do {
-//          try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: AVAudioSession.CategoryOptions.mixWithOthers)
-//          try AVAudioSession.sharedInstance().setActive(true)
-//       } catch {
-//           print(error)
-//    }
-    
     let utterance = AVSpeechUtterance(string: label)
     let synthesizer = AVSpeechSynthesizer()
     synthesizer.speak(utterance)
-    
-    
- 
   }
- 
+
 }
 
 //func disconnectFromDevice () {
@@ -134,7 +121,6 @@ extension ODAViewController: CBCentralManagerDelegate {
 //  centralManager?.cancelPeripheralConnection(nanoPeripheral!)
 //    }
 // }
-
 
 extension ODAViewController: CBPeripheralDelegate {
   func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
