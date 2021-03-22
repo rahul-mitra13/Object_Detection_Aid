@@ -104,10 +104,27 @@ extension ODAViewController: CBCentralManagerDelegate {
     nanoPeripheral.discoverServices([nanoServiceCBUUID])
   }
   
+  func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    centralManager.connect(nanoPeripheral)
+  }
+  
   func audio(label: String) {
+    
+    
+    //Added this chunk. Fix this
+//    do {
+//          try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: AVAudioSession.CategoryOptions.mixWithOthers)
+//          try AVAudioSession.sharedInstance().setActive(true)
+//       } catch {
+//           print(error)
+//    }
+    
     let utterance = AVSpeechUtterance(string: label)
     let synthesizer = AVSpeechSynthesizer()
     synthesizer.speak(utterance)
+    
+    
+ 
   }
  
 }
@@ -156,29 +173,28 @@ extension ODAViewController: CBPeripheralDelegate {
       print("")
       print("Length of byteArray = ", objectIDList.count)
       
-//      for i in objectIDList.indices {
-//        let object = Int(objectIDList[i])
-//        let objectLabel = onDetectionReceived(object)
-//        count = count + 1
-//
-//        if count % 25 == 0 { //delays audio readout
-//          audio(label: objectLabel)
-//        }
-        
+      
       var objectLabels = [String : Int]()
         
         for i in objectIDList.indices {
           let object = Int(objectIDList[i])
           let label = onDetectionReceived(object)
+          
           // Adds label to hashmap with value of 1 if it doesn't exist, or increments it by 1 if it does
-          objectLabels[label] = objectLabels[label] ?? 0 + 1 //FIX THIS
+          if objectLabels[label] != nil {
+            objectLabels[label] = objectLabels[label]! + 1
+          }
+          else {
+            objectLabels[label] = 1
+          }
           
           count = count + 1
           
-        if count % 30 == 0 { //delays audio readout
+        if count % 20 == 0 { //delays audio readout
           audio(label: fixGrammar(labels: objectLabels))
         }
         
+          
       }
     default:
       print("Unhandled Characteristic UUID: \(characteristic.uuid)")
@@ -220,3 +236,5 @@ extension ODAViewController: CBPeripheralDelegate {
     return detectedIDs
   }
 }
+
+
