@@ -47,6 +47,7 @@ class ODAViewController: UIViewController {
   var centralManager: CBCentralManager!
   var nanoPeripheral: CBPeripheral!
   var count = 0
+  var firstDataFlag = false
   
 
   override func viewDidLoad() {
@@ -150,11 +151,13 @@ extension ODAViewController: CBPeripheralDelegate {
 
   func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
     switch characteristic.uuid {
-//    case bodySensorLocationCharacteristicCBUUID:
-//      let bodySensorLocation = bodyLocation(from: characteristic)
-//      bodySensorLocationLabel.text = bodySensorLocation
     case objectDetectionCharacteristicCBUUID:
+        
       let objectIDList = detectedObjects(from: characteristic)
+      
+      if firstDataFlag == false {
+        audio(label: "Click anywhere on the screen to hear audio feedback. Click once more to turn audio off.")
+      }
       
       print("")
       print("Length of byteArray = ", objectIDList.count)
@@ -176,7 +179,7 @@ extension ODAViewController: CBPeripheralDelegate {
           
           count = count + 1
           
-        if count % 20 == 0 { //delays audio readout
+        if count % 15 == 0 { //reduces audio readout
           audio(label: fixGrammar(labels: objectLabels))
         }
         
