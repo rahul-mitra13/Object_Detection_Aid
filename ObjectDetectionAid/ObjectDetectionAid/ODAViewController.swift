@@ -157,6 +157,7 @@ extension ODAViewController: CBPeripheralDelegate {
       
       if firstDataFlag == false {
         audio(label: "Click anywhere on the screen to hear audio feedback. Click once more to turn audio off.")
+        firstDataFlag = true
       }
       
       print("")
@@ -178,7 +179,8 @@ extension ODAViewController: CBPeripheralDelegate {
           }
           
           count = count + 1
-          
+        
+        //Add and check boolean flag here for whether audio is set to true or false
         if count % 15 == 0 { //reduces audio readout
           audio(label: fixGrammar(labels: objectLabels))
         }
