@@ -294,21 +294,22 @@ class HeartRateMeasurementChrc(Characteristic):
                 self.HR_MSRMT_UUID,
                 ['notify'],
                 service)
-        self.notifying = False
+        self.notifying = True
         self.hr_ee_count = 0 # energy expended
 
     # Changing heart rate measurement value
     def hr_msrmt_cb(self):
         value = []
-	returnList = detect.get_ids()
-	print("Detected objects: ", returnList)
+	#returnList = detect.get_ids()
+	#print("Detected objects: ", returnList)
 
-	"""
+	
         value.append(dbus.Byte(0x06))
 	
         # Changing heart rate measurement to be sent via Bluetooth
         value.append(dbus.Byte(randint(90, 130)))
 
+	"""
         if self.hr_ee_count % 10 == 0:
             value[0] = dbus.Byte(value[0] | 0x08)
             value.append(dbus.Byte(self.service.energy_expended & 0xff))
@@ -320,10 +321,10 @@ class HeartRateMeasurementChrc(Characteristic):
 
 	"""
 
-        print('Updating value: ' + repr(value)) # prints the object
+        print('Updating value: ' + repr(6)) # prints the object
 
         # Changes heart rate measurement value  
-        self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
+        self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': 6 }, [])
 
         return self.notifying # true or false value
 
