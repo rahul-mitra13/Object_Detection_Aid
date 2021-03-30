@@ -44,10 +44,12 @@ class ODAViewController: UIViewController {
   @IBOutlet weak var detectedObjectLabel: UILabel!
   @IBOutlet weak var bodySensorLocationLabel: UILabel!
 
-  var centralManager: CBCentralManager!
+    @IBOutlet weak var swipeLabel: UILabel!
+    var centralManager: CBCentralManager!
   var nanoPeripheral: CBPeripheral!
   var count = 0
-  var firstDataFlag = false
+  var dataReceivedFlag = false
+  var audioFlag = false
   
 
   override func viewDidLoad() {
@@ -57,10 +59,32 @@ class ODAViewController: UIViewController {
 
     // Make the digits monospaces to avoid shifting when the numbers change
     detectedObjectLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 30, weight: .regular)
-
     
+    
+    let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+    let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        
+    leftSwipe.direction = .left
+    rightSwipe.direction = .right
+
+    view.addGestureRecognizer(leftSwipe)
+    view.addGestureRecognizer(rightSwipe)
+
   }
 
+  @objc func handleSwipes(_ sender:UISwipeGestureRecognizer) {
+          
+      if (sender.direction == .left) {
+          print("Swipe Left")
+          audioFlag = false
+      }
+          
+      if (sender.direction == .right) {
+          print("Swipe Right")
+          audioFlag = true
+      }
+  }
+  
   func onDetectionReceived(_ detectedObject: Int) -> String {
     let dict = [0 : "Unlabeled", 1 : "Person", 2 : "Bicycle", 3 : "Car", 4 : "Motorcycle", 5 : "Airplane", 6 : "Bus", 7 : "Train", 8 : "Truck", 9 : "Boat", 10 : "Traffic Light", 11 : "Fire Hydrant", 12 : "Street Sign", 13 : "Stop Sign", 14 : "Parking Meter", 15 : "Bench", 16 : "Bird", 17 : "Cat", 18 : "Dog", 19 : "Horse", 20 : "Sheep", 21 : "Cow", 22 : "Elephant", 23 : "Bear", 24 : "Zebra", 25 : "Giraffe", 26 : "Hat", 27 : "Backpack", 28 : "Umbrella", 29 : "Shoe", 30 : "Eye Glasses", 31 : "Handbag", 32 : "Tie", 33 : "Suitcase", 34 : "Frisbee", 35 : "Skis", 36 : "Snowboard", 37 : "Sports Ball", 38 : "Kite", 39 : "Baseball Bat", 40 : "Baseball Glove", 41 : "Skateboard", 42 : "Surfboard", 43 : "Tennis Racket", 44 : "Bottle", 45 : "Plate", 46 : "Wine Glass", 47 : "Cup", 48 : "Fork", 49 : "Knife", 50 : "Spoon", 51 : "Bowl", 52 : "Banana", 53 : "Apple", 54 : "Sandwich", 55 : "Orange", 56 : "Broccoli", 57 : "Carrot", 58 : "Hot dog", 59 : "Pizza", 60 : "Donut", 61 : "Cake", 62 : "Chair", 63 : "Couch", 64 : "Potted Plant", 65 : "Bed", 66 : "Mirror", 67 : "Dining Table", 68 : "Window", 69 : "Desk", 70 : "Toilet", 71 : "Door", 72 : "TV", 73 : "Laptop", 74 : "Mouse", 75 : "Remote", 76 : "Keyboard", 77 : "Cell Phone", 78 : "Microwave", 79 : "Oven", 80 : "Toaster", 81 : "Sink", 82 : "Refrigerator", 83 : "Blender", 84 : "Book", 85 : "Clock", 86 : "Vase", 87 : "Scissors", 88 : "Teddy Bear", 89 : "Hair Drier", 90 : "Toothbrush", 95: " ", 96: " " ]
     
@@ -155,9 +179,9 @@ extension ODAViewController: CBPeripheralDelegate {
         
       let objectIDList = detectedObjects(from: characteristic)
       
-      if firstDataFlag == false {
-        audio(label: "Click anywhere on the screen to hear audio feedback. Click once more to turn audio off.")
-        firstDataFlag = true
+      if dataReceivedFlag == false {
+        audio(label: "Swipe right anywhere on the screen to hear audio feedback. Swipe left anywhere to turn audio off.")
+        dataReceivedFlag = true
       }
       
       print("")
@@ -181,10 +205,11 @@ extension ODAViewController: CBPeripheralDelegate {
           count = count + 1
         
         //Add and check boolean flag here for whether audio is set to true or false
-        if count % 15 == 0 { //reduces audio readout
-          audio(label: fixGrammar(labels: objectLabels))
-        }
-        
+          if audioFlag {
+            if count % 12 == 0 { //reduces audio readout
+              audio(label: fixGrammar(labels: objectLabels))
+            }
+          }
           
       }
     default:
