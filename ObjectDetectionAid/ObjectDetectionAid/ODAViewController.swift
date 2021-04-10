@@ -44,8 +44,9 @@ class ODAViewController: UIViewController {
   @IBOutlet weak var detectedObjectLabel: UILabel!
   @IBOutlet weak var bodySensorLocationLabel: UILabel!
 
-    @IBOutlet weak var swipeLabel: UILabel!
-    var centralManager: CBCentralManager!
+  @IBOutlet weak var swipeLabel: UILabel!
+  
+  var centralManager: CBCentralManager!
   var nanoPeripheral: CBPeripheral!
   var count = 0
   var dataReceivedFlag = false
@@ -60,8 +61,8 @@ class ODAViewController: UIViewController {
     // Make the digits monospaces to avoid shifting when the numbers change
     detectedObjectLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 30, weight: .regular)
     
-    
     let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        
     let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
         
     leftSwipe.direction = .left
@@ -69,7 +70,7 @@ class ODAViewController: UIViewController {
 
     view.addGestureRecognizer(leftSwipe)
     view.addGestureRecognizer(rightSwipe)
-
+    
   }
 
   @objc func handleSwipes(_ sender:UISwipeGestureRecognizer) {
@@ -140,12 +141,6 @@ extension ODAViewController: CBCentralManagerDelegate {
   }
 
 }
-
-//func disconnectFromDevice () {
-//  if nanoPeripheral != nil {
-//  centralManager?.cancelPeripheralConnection(nanoPeripheral!)
-//    }
-// }
 
 extension ODAViewController: CBPeripheralDelegate {
   func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
