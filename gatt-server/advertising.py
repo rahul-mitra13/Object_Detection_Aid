@@ -93,21 +93,9 @@ class TestAdvertisement(Advertisement):
     def __init__(self, bus, index):
         Advertisement.__init__(self, bus, index, 'peripheral')
         self.add_service_uuid('ffff')
-        # self.add_service_uuid('180F')
         self.add_manufacturer_data(0xffff, [0x00, 0x01, 0x02, 0x03, 0x04])
         self.add_service_data('9999', [0x00, 0x01, 0x02, 0x03, 0x04])
         self.include_tx_power = True
-
-"""
-class TestAdvertisement(Advertisement):
-    def __init__(self, bus, index):
-        Advertisement.__init__(self, bus, index, 'peripheral')
-        self.add_service_uuid('180D')
-        self.add_service_uuid('180F')
-        self.add_manufacturer_data(0xffff, [0x00, 0x01, 0x02, 0x03, 0x04])
-        self.add_service_data('9999', [0x00, 0x01, 0x02, 0x03, 0x04])
-        self.include_tx_power = True
-"""
 
 def register_ad_cb():
     print('Advertisement registered')

@@ -6,6 +6,9 @@ import dbus.service
 import array
 import functools
 import time
+import jetson.inference
+import jetson.utils
+import sys
 
 try:
   from gi.repository import GObject
@@ -30,16 +33,7 @@ GATT_SERVICE_IFACE = 'org.bluez.GattService1'
 GATT_CHRC_IFACE =    'org.bluez.GattCharacteristic1'
 GATT_DESC_IFACE =    'org.bluez.GattDescriptor1'
 
-
-
-
-
-
-import jetson.inference
-import jetson.utils
-import sys
-
-# Temporarily global 
+# Global variables 
 ids = []
 num_ids = 0
 
@@ -56,7 +50,6 @@ def get_ids():
 def reset_ids():
 	del ids[:]
 
-
 class Application(dbus.service.Object):
     """
     org.bluez.GattApplication1 interface implementation
@@ -68,14 +61,8 @@ class Application(dbus.service.Object):
         dbus.service.Object.__init__(self, bus, self.path)
 
 	# Adding all services to our peripheral application 
-        self.add_service(HeartRateService(bus, 0))
+        self.add_service(DetectedObjService(bus, 0))
         
-	"""
-        self.add_service(BatteryService(bus, 1))
-        self.add_service(TestService(bus, 2))
-
-        """
-
     def get_path(self):
         return dbus.ObjectPath(self.path)
 
@@ -101,7 +88,6 @@ class Application(dbus.service.Object):
                     response[desc.get_path()] = desc.get_properties()
 
         return response
-
 
 class Service(dbus.service.Object):
     """
@@ -156,7 +142,6 @@ class Service(dbus.service.Object):
             raise exceptions.InvalidArgsException()
 
         return self.get_properties()[GATT_SERVICE_IFACE]
-
 
 class Characteristic(dbus.service.Object):
     """
@@ -240,7 +225,6 @@ class Characteristic(dbus.service.Object):
     def PropertiesChanged(self, interface, changed, invalidated):
         pass
 
-
 class Descriptor(dbus.service.Object):
     """
     org.bluez.GattDescriptor1 interface implementation
@@ -290,41 +274,31 @@ class Descriptor(dbus.service.Object):
         print('Default WriteValue called, returning error')
         raise exceptions.NotSupportedException()
 
-
-class HeartRateService(Service):
-    """
-    Fake Heart Rate Service that simulates a fake heart beat and control point
-    behavior.
-
-    """
+class DetectedObjService(Service):
+   
     # Service UUID
-    HR_UUID = '0000ffff-0000-1000-8000-00805f9b34fb'
+    OBJ_UUID = '0000ffff-0000-1000-8000-00805f9b34fb'
 
-    # Creates the Heart Rate Service, adding its characteristics 
+    # Creates the detected object service, adding its characteristics 
     def __init__(self, bus, index):
-        Service.__init__(self, bus, index, self.HR_UUID, True)
-        self.add_characteristic(HeartRateMeasurementChrc(bus, 0, self))
-	self.energy_expended = 0
+        Service.__init__(self, bus, index, self.OBJ_UUID, True)
+        self.add_characteristic(DetectedObjChrc(bus, 0, self))
 	
-    
-
-
-class HeartRateMeasurementChrc(Characteristic):
+class DetectedObjChrc(Characteristic):
     # Characteristic UUID
-    HR_MSRMT_UUID = '0000bbbb-0000-1000-8000-00805f9b34fb'
+    DET_OBJ_UUID = '0000bbbb-0000-1000-8000-00805f9b34fb'
 
     # Creates a characteristic that notifies the central application, but with notify set to false 
     def __init__(self, bus, index, service):
         Characteristic.__init__(
                 self, bus, index,
-                self.HR_MSRMT_UUID,
+                self.DET_OBJ_UUID,
                 ['notify'],
                 service)
         self.notifying = False # usually false
-        self.hr_ee_count = 0 # energy expended
 
-    # Changing heart rate measurement value
-    def hr_msrmt_cb(self):
+    # Changing detected object value
+    def obj_det_cb(self):
         value = []
 	detections = get_ids()
 
@@ -336,24 +310,20 @@ class HeartRateMeasurementChrc(Characteristic):
 		value.append(dbus.Byte(95))
 		self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
 
-	
-    
-    #updating dummy values - trying to keep connection alive
+    # Updates dummy values to keep connection alive
     def dummy_update(self):
 	value = []	
 	value.append(dbus.Byte(95))
 	self.PropertiesChanged(GATT_CHRC_IFACE, { 'Value': value }, [])
 
-    # Updates the characteristic's heart rate measurement value if notify is set to true
-    def _update_hr_msrmt_simulation(self):
+    # Updates the characteristic's detected object value if notify is set to true
+    def update_obj_det(self):
 	if not self.notifying:
-	    #print("not notifying")
             return False
 	else:
 	    return True
 	
-
-    # Sets notify to true and starts the periodic updating of the heart rate measurement
+    # Sets notify to true and starts the periodic updating of the detected object value
     def StartNotify(self):
         if self.notifying:
             print('Already notifying, nothing to do')
@@ -362,24 +332,22 @@ class HeartRateMeasurementChrc(Characteristic):
         self.notifying = True
         self.StartObjectDetection()
 
-    # Sets notify to false so that the periodic updating of the heart rate measurement stops
+    # Sets notify to false so that the periodic updating of the detected object value
     def StopNotify(self):
         if not self.notifying:
             print('Not notifying, nothing to do')
             return
 
         self.notifying = False
-        self._update_hr_msrmt_simulation()
-
+        self.update_obj_det()
 
     def StartObjectDetection(self):
-	#this is the neural net
-	#0.5 baseline
-	net = jetson.inference.detectNet("ssd-inception-v2", threshold=0.5)#threshold influences number of objects detected
+	# This is the neural net
+	# 0.5 baseline
+	net = jetson.inference.detectNet("ssd-inception-v2", threshold=0.5) # threshold influences number of objects detected
 
-	#this is the camera object
-	#parameters - width, height, device file
-	#a good resolution might be 1280*780
+	# This is the camera object
+	# Parameters - width, height, device file
 	camera = jetson.utils.videoSource("csi://0")
 
 	# Open display to show results  
@@ -390,39 +358,26 @@ class HeartRateMeasurementChrc(Characteristic):
 
 		reset_ids()
 			
-		#return img - blocks until next frame is available
-		#converts raw format of the camera to floating point RGBA on the GPU
 		img = camera.Capture()
 		
-		#Resizing image
-		#imgOutput = jetson.utils.cudaAllocMapped(width=img.width*0.5, height=img.height*0.5, format=img.format)
-		#jetson.utils.cudaResize(img, imgOutput)
-			
-		#detectNet object to identify objects
+		# detectNet object to identify objects
 		detections = net.Detect(img)
-
 
 		detected_ids(detections)
 
-		# Gets HeartRateMeasurementChrc and calls the update function on it
-		#app.get_service().get_characteristics()[0]._update_hr_msrmt_simulation()
-		self.hr_msrmt_cb()
+		# GetsDetectedObjChrc and calls the update function on it
+		self.obj_det_cb()
 
-
-		#render overlayed img to the OpenGL window
+		# Render overlayed img to the OpenGL window
 		display.Render(img)
-
-	
 
 # Registering our application and creating a gatt server 
 def register_app_cb():
     print('GATT application registered')
 
-
 def register_app_error_cb(mainloop, error):
     print('Failed to register application: ' + str(error))
     mainloop.quit()
-
 
 def gatt_server_detect_main(mainloop, bus, adapter_name):
 	adapter = adapters.find_adapter(bus, GATT_MANAGER_IFACE, adapter_name)
