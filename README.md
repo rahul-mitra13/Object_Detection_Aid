@@ -34,7 +34,7 @@ Change directory to the gatt-server directory.
 
 Run gatt-server.py 
 
-`python gatt-servery.py`
+`python gatt-server.py`
 
 #### iOS Smartphone
 
