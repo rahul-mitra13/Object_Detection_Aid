@@ -12,7 +12,7 @@
 1. [iOS Swift](https://developer.apple.com/swift/)
 2. [Tensor Flow Object Detection API](https://www.tensorflow.org/api_docs)
 
-...The network we're using is ssd-inception-v2 which has 91 object classes
+   ...The network we're using is ssd-inception-v2 which has 91 object classes
 
 3. [BlueZ](http://www.bluez.org/)
 4. [DBus](https://www.freedesktop.org/wiki/Software/dbus/)
