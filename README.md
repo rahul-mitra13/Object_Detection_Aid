@@ -1,6 +1,6 @@
 # Object Detection Aid
 
-# Hardware Dependencies
+## Hardware Dependencies
 
 1. [NVIDIA Jetson Nano Developer Kit](https://developer.nvidia.com/embedded/jetson-nano-developer-kit)
 2. [Raspberry Pi V2 Camera](https://www.raspberrypi.org/products/camera-module-v2/)
@@ -10,11 +10,38 @@
 # Software Dependencies
 
 1. [iOS Swift](https://developer.apple.com/swift/)
-2. [Tensor Flow Object Detection API](https://www.tensorflow.org/api_docs)
+2. [XCode](https://developer.apple.com/xcode/)
+3. [Tensor Flow Object Detection API](https://www.tensorflow.org/api_docs)
 
    The network we're using is ssd-inception-v2 which has 91 object classes
 
 3. [BlueZ](http://www.bluez.org/)
 4. [DBus](https://www.freedesktop.org/wiki/Software/dbus/)
+
+## Usage 
+
+### Manual Compilation 
+
+#### Jetson Nano 
+
+Once the Jetson Nano has been set up, open the terminal and clone this repo. 
+
+`git clone https://github.com/rahul-mitra13/Senior_Project`
+
+Change directory to the gatt-server directory.
+
+`cd /Senior_Project/gatt-server`
+
+Run gatt-server.py 
+
+`python gatt-servery.py`
+
+#### iOS Smartphone
+
+Clone this repo as above. Under the `ObjectDetectionAid` directory, open `ObjectDetectionAid.xcodeproj` with XCode. Turn smartphone's bluetooth on and build this project. 
+
+### Compilation on Startup
+
+
 
 
