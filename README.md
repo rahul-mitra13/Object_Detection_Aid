@@ -9,10 +9,12 @@
 
 # Software 
 
-1. Swift
+1. [iOS Swift](https://developer.apple.com/swift/)
 2. [Tensor Flow Object Detection API](https://www.tensorflow.org/api_docs)
+
 ...The network we're using is ssd-inception-v2 which has 91 object classes
-4. [BlueZ](http://www.bluez.org/)
-5. [DBus](https://www.freedesktop.org/wiki/Software/dbus/)
+
+3. [BlueZ](http://www.bluez.org/)
+4. [DBus](https://www.freedesktop.org/wiki/Software/dbus/)
 
 
