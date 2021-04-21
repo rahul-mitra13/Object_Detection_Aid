@@ -52,7 +52,7 @@ Add the following line at the end of the `.bashrc`
 
 Add `gnome-terminal` to Nano's startup applications 
 
-### iOS Smartphone 
+#### iOS Smartphone 
 
 Same as the case for manual compilation
 
