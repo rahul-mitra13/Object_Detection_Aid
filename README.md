@@ -1,15 +1,33 @@
 # Object Detection Aid
 
+## ODA: How it works
+
+This is an object detection aid for the visually imparied that consists of a white cane enhanced with a microcomputer and camera and an iOS application. As you use this white cane throughout your daily routine, you can use its object detection capabilities to receive helpful information about your environment! Specifically, the cane’s camera and microcomputer detect objects in front of you via machine learning, and then send that information via Bluetooth to your smartphone, where it can be relayed to you via audio feedback.
+
+## Initial Setup
+
+1. Download the ODA app on your smartphone device.
+2. Make sure that your Bluetooth is turned on.
+3. Turn the Nano on by plugging the cord into the Nano’s battery, and accept its request to pair with your smartphone.
+4. Restart the Nano.
+
+## Everyday Use 
+
+1. Make sure your Bluetooth is turned on, open the app, and turn on the Nano by plugging the cord into the Nano’s battery. The smartphone and Nano will automatically pair.
+2. Once the Nano is fully set up (this should take about X seconds), it will begin sending detected object information to the smartphone.
+3. To receive audio feedback on detected objects, swipe right anywhere on your screen. To turn off audio feedback, swipe left anywhere on your screen.
+4. To stop the Bluetooth process entirely, quit the application or turn off the Nano by unplugging the cord from the battery.
+
+## Charging the Nano 
+
+Remove the battery from the white cane and charge it with its micro-USB. When fully charged, reattach it to its velcro patch on the cane.
+
 ## Hardware Dependencies
 
 1. [NVIDIA Jetson Nano Developer Kit](https://developer.nvidia.com/embedded/jetson-nano-developer-kit)
 2. [Raspberry Pi V2 Camera](https://www.raspberrypi.org/products/camera-module-v2/)
 3. Portable Battery ([This is the one we used](https://www.amazon.com/INIU-Portable-20000mAh-High-speed-Flashlight/dp/B07YPY31FL))
 4. [Bluetooth module for the Nano](https://www.amazon.com/Makeronics-Wireless-Bluetooth-Assembly-Instruction/dp/B07X2NLL85/ref=sr_1_2_sspa?dchild=1&keywords=intel+8265ngw&qid=1618940446&sr=8-2-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFQS0syQ1NSMFJGRjImZW5jcnlwdGVkSWQ9QTAzMzMxMTEyU0VFSjc4VDlPM09GJmVuY3J5cHRlZEFkSWQ9QTA3ODI0NzIxUEM2TUo0NE1GNU01JndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==)
-
-## ODA: How it works
-
-This is an object detection aid for the visually imparied that consists of a white cane enhanced with a microcomputer and camera and an iOS application. As you use this white cane throughout your daily routine, you can use its object detection capabilities to receive helpful information about your environment! Specifically, the cane’s camera and microcomputer detect objects in front of you via machine learning, and then send that information via Bluetooth to your smartphone, where it can be relayed to you via audio feedback.
 
 
 ## Software Dependencies
