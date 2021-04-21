@@ -32,7 +32,7 @@ Change directory to the gatt-server directory.
 
 `cd /Senior_Project/gatt-server`
 
-Run gatt-server.py 
+Run gatt-server.py. 
 
 `python gatt-server.py`
 
@@ -42,19 +42,21 @@ Clone this repo as above. Under the `ObjectDetectionAid` directory, open `Object
 
 ### Compilation on Startup
 
-Once the jetson nano is set up, open `.bashrc`
+#### Jetson Nano 
+
+Once the jetson nano is set up, open `.bashrc`.
 
 `vim .bashrc` 
 
-Add the following line at the end of the `.bashrc` 
+Add the following line at the end of the `.bashrc`. 
 
 `python ~/Object_Detection_Aid/gatt-server/gatt-server.py`
 
-Add `gnome-terminal` to Nano's startup applications 
+Add `gnome-terminal` to Nano's startup applications. 
 
 #### iOS Smartphone 
 
-Same as the case for manual compilation
+Same as the case for manual compilation.
 
 
 
