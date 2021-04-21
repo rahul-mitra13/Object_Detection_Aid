@@ -7,7 +7,7 @@
 3. Portable Battery ([This is the one we used](https://www.amazon.com/INIU-Portable-20000mAh-High-speed-Flashlight/dp/B07YPY31FL))
 4. [Bluetooth module for the Nano](https://www.amazon.com/Makeronics-Wireless-Bluetooth-Assembly-Instruction/dp/B07X2NLL85/ref=sr_1_2_sspa?dchild=1&keywords=intel+8265ngw&qid=1618940446&sr=8-2-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFQS0syQ1NSMFJGRjImZW5jcnlwdGVkSWQ9QTAzMzMxMTEyU0VFSjc4VDlPM09GJmVuY3J5cHRlZEFkSWQ9QTA3ODI0NzIxUEM2TUo0NE1GNU01JndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==)
 
-# Software Dependencies
+## Software Dependencies
 
 1. [iOS Swift](https://developer.apple.com/swift/)
 2. [XCode](https://developer.apple.com/xcode/)
