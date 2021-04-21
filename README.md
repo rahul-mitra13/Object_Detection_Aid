@@ -26,7 +26,7 @@
 
 Once the Jetson Nano has been set up, open the terminal and clone this repo. 
 
-`git clone https://github.com/rahul-mitra13/Senior_Project`
+`git clone https://github.com/rahul-mitra13/Object_Detection_Aid`
 
 Change directory to the gatt-server directory.
 
