@@ -1,5 +1,5 @@
-# Object Detection Aid
-
+# Object Detection Aid (ODA)
+ 
 ## ODA: How it works
 
 This is an object detection aid for the visually imparied that consists of a white cane enhanced with a microcomputer and camera and an iOS application. As you use this white cane throughout your daily routine, you can use its object detection capabilities to receive helpful information about your environment! Specifically, the cane’s camera and microcomputer detect objects in front of you via machine learning, and then send that information via Bluetooth to your smartphone, where it can be relayed to you via audio feedback.
@@ -14,7 +14,7 @@ This is an object detection aid for the visually imparied that consists of a whi
 ## Everyday Use 
 
 1. Make sure your Bluetooth is turned on, open the app, and turn on the Nano by plugging the cord into the Nano’s battery. The smartphone and Nano will automatically pair.
-2. Once the Nano is fully set up (this should take about X seconds), it will begin sending detected object information to the smartphone.
+2. Once the Nano is fully set up (this should take about 1 minute), it will begin sending detected object information to the smartphone.
 3. To receive audio feedback on detected objects, swipe right anywhere on your screen. To turn off audio feedback, swipe left anywhere on your screen.
 4. To stop the Bluetooth process entirely, quit the application or turn off the Nano by unplugging the cord from the battery.
 
