@@ -17,10 +17,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="jMv-Nk-fez">
-                                <rect key="frame" x="74" y="120" width="266" height="568"/>
+                                <rect key="frame" x="74" y="197.5" width="266" height="413"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="N9k-Lq-Uw6">
-                                        <rect key="frame" x="0.0" y="0.0" width="266" height="227"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="266" height="72"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gx5-Hh-nFZ">
                                                 <rect key="frame" x="7.5" y="0.0" width="251" height="36"/>
@@ -35,16 +35,23 @@
                                                 </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vav-fa-HwA">
-                                                <rect key="frame" x="84" y="36" width="98.5" height="191"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="160"/>
-                                                <nil key="textColor"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vav-fa-HwA">
+                                                <rect key="frame" x="118" y="36" width="30.5" height="36"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Hi">
+                                                        <attributes>
+                                                            <font key="NSFont" size="32" name="ArialMT"/>
+                                                            <font key="NSOriginalFont" size="32" name="ArialMT"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hlZ-4o-P0u">
-                                        <rect key="frame" x="0.0" y="327" width="266" height="241"/>
+                                        <rect key="frame" x="0.0" y="172" width="266" height="241"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pf6-Fx-TZn">
                                                 <rect key="frame" x="108" y="0.0" width="50" height="50"/>
