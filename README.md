@@ -53,7 +53,7 @@ Once the Jetson Nano has been set up, open the terminal and clone this repo.
 
 Change directory to the gatt-server directory.
 
-`cd /Senior_Project/gatt-server`
+`cd /Object_Detection_Aid/gatt-server`
 
 Run gatt-server.py. 
 
