@@ -1,4 +1,6 @@
 # Object Detection Aid (ODA)
+
+![Close up of System](https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up%20ODA%20Cane.JPG)
  
 ## ODA: How it works
 
