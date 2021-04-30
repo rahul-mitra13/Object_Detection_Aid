@@ -1,6 +1,6 @@
 # Object Detection Aid (ODA)
 
-![alt text](https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png)
+<img src="https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png" width="100" height="100">
  
 ## ODA: How it works
 
