@@ -1,6 +1,6 @@
 # Object Detection Aid (ODA)
 
-<img src="https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png" width="100" height="100">
+<img src="https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png" width="5000" height="5000">
  
 ## ODA: How it works
 
