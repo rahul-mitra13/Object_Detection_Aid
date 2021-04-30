@@ -2,7 +2,7 @@
 
 <p align="center">
 
-<img src="https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png" width="550" height="200"/>
+<img src="https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png" width="800" height="200"/>
 
 </p>
  
