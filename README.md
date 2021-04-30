@@ -1,8 +1,8 @@
 # Object Detection Aid (ODA)
 
-<p align="center>
+<p align="center">
 
-<img src="https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png" width="500" height="250">
+<img src="https://github.com/rahul-mitra13/Object_Detection_Aid/blob/main/Images/Close-Up_ODA_Cane.png" width="500" height="250"/>
 
 </p>
  
