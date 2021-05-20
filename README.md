@@ -8,7 +8,7 @@
  
 ## ODA: How it works
 
-This is an object detection aid for the visually imparied that consists of a white cane enhanced with a microcomputer and camera and an iOS application. As you use this white cane throughout your daily routine, you can use its object detection capabilities to receive helpful information about your environment! Specifically, the cane’s camera and microcomputer detect objects in front of you via machine learning, and then send that information via Bluetooth to your smartphone, where it can be relayed to you via audio feedback.
+This is an object detection aid for the visually impaired that consists of a white cane enhanced with a microcomputer and camera and an iOS application. As you use this white cane throughout your daily routine, you can use its object detection capabilities to receive helpful information about your environment! Specifically, the cane’s camera and microcomputer detect objects in front of you via machine learning, and then send that information via Bluetooth to your smartphone, where it can be relayed to you via audio feedback. See [demo](https://drive.google.com/file/d/1gM4ZCeuh4fR46ldxd9MWmQGhZPaatqYs/view?usp=sharing).
 
 ## Initial Setup
 
